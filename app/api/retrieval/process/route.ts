@@ -111,7 +111,7 @@ export async function POST(req: Request) {
       tokens: chunk.tokens,
       openai_embedding:
         embeddingsProvider === "openai"
-          ? ((embeddings[] || null) as any)
+          ? ((embeddings[index] || null) as any)
           : null,
       local_embedding:
         embeddingsProvider === "local"
