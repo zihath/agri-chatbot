@@ -23,7 +23,7 @@ import {
 } from "@tabler/icons-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { FC, useCallback, useContext, useRef, useState } from "react"
+import { FC, useCallback, useContext, useRef, useState , useEffect } from "react"
 import { toast } from "sonner"
 import { SIDEBAR_ICON_SIZE } from "../sidebar/sidebar-switcher"
 import { Button } from "../ui/button"
@@ -124,7 +124,116 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
     router.refresh()
     return
   }
+  // Update profile when input fields change
+useEffect(() => {
+  const updateProfileData = async () => {
+  if (!profile) return;
+  let profileImageUrl = profile.image_url
+  let profileImagePath = ""
 
+  if (profileImageFile) {
+    const { path, url } = await uploadProfileImage(profile, profileImageFile)
+    profileImageUrl = url ?? profileImageUrl
+    profileImagePath = path
+  }
+
+  const updatedProfile = await updateProfile(profile.id, {
+    ...profile,
+    display_name: displayName,
+    username,
+    profile_context: profileInstructions,
+    image_url: profileImageUrl,
+    image_path: profileImagePath,
+    openai_api_key: openaiAPIKey,
+    openai_organization_id: openaiOrgID,
+    anthropic_api_key: anthropicAPIKey,
+    google_gemini_api_key: googleGeminiAPIKey,
+    mistral_api_key: mistralAPIKey,
+    groq_api_key: groqAPIKey,
+    perplexity_api_key: perplexityAPIKey,
+    use_azure_openai: useAzureOpenai,
+    azure_openai_api_key: azureOpenaiAPIKey,
+    azure_openai_endpoint: azureOpenaiEndpoint,
+    azure_openai_35_turbo_id: azureOpenai35TurboID,
+    azure_openai_45_turbo_id: azureOpenai45TurboID,
+    azure_openai_45_vision_id: azureOpenai45VisionID,
+    azure_openai_embeddings_id: azureEmbeddingsID,
+    openrouter_api_key: openrouterAPIKey
+  })
+
+   // Update the profile state with the updated profile data
+setProfile(updatedProfile);
+
+  toast.success("Profile updated!")
+ 
+
+  const providers = [
+    "openai",
+    "google",
+    "azure",
+    "anthropic",
+    "mistral",
+    "groq",
+    "perplexity",
+    "openrouter"
+  ]
+
+  providers.forEach(async provider => {
+    let providerKey: keyof typeof profile
+
+    if (provider === "google") {
+      providerKey = "google_gemini_api_key"
+    } else if (provider === "azure") {
+      providerKey = "azure_openai_api_key"
+    } else {
+      providerKey = `${provider}_api_key` as keyof typeof profile
+    }
+
+    const models = LLM_LIST_MAP[provider]
+    const envKeyActive = envKeyMap[provider]
+
+    if (!envKeyActive) {
+      const hasApiKey = !!updatedProfile[providerKey]
+
+      if (provider === "openrouter") {
+        if (hasApiKey && availableOpenRouterModels.length === 0) {
+          const openrouterModels: OpenRouterLLM[] =
+            await fetchOpenRouterModels()
+          setAvailableOpenRouterModels(prev => {
+            const newModels = openrouterModels.filter(
+              model =>
+                !prev.some(prevModel => prevModel.modelId === model.modelId)
+            )
+            return [...prev, ...newModels]
+          })
+        } else {
+          setAvailableOpenRouterModels([])
+        }
+      } else {
+        if (hasApiKey && Array.isArray(models)) {
+          setAvailableHostedModels(prev => {
+            const newModels = models.filter(
+              model =>
+                !prev.some(prevModel => prevModel.modelId === model.modelId)
+            )
+            return [...prev, ...newModels]
+          })
+        } else if (!hasApiKey && Array.isArray(models)) {
+          setAvailableHostedModels(prev =>
+            prev.filter(model => !models.includes(model))
+          )
+        }
+      }
+    }
+  })
+
+  setIsOpen(false)
+  window.location.reload();
+}
+
+// updateProfileData();
+// handleSave();
+},[openaiAPIKey])
   const handleSave = async () => {
     if (!profile) return
     let profileImageUrl = profile.image_url
@@ -161,6 +270,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
     })
 
     setProfile(updatedProfile)
+    const updatedProfileResult = await updateProfile(profile.id, updatedProfile);
 
     toast.success("Profile updated!")
 

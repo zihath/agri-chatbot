@@ -46,7 +46,7 @@ export default function SetupPage() {
 
   // API Step
   const [useAzureOpenai, setUseAzureOpenai] = useState(false)
-  const [openaiAPIKey, setOpenaiAPIKey] = useState("")
+  const [openaiAPIKey, setOpenaiAPIKey] = useState("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")
   const [openaiOrgID, setOpenaiOrgID] = useState("")
   const [azureOpenaiAPIKey, setAzureOpenaiAPIKey] = useState("")
   const [azureOpenaiEndpoint, setAzureOpenaiEndpoint] = useState("")
@@ -55,7 +55,7 @@ export default function SetupPage() {
   const [azureOpenai45VisionID, setAzureOpenai45VisionID] = useState("")
   const [azureOpenaiEmbeddingsID, setAzureOpenaiEmbeddingsID] = useState("")
   const [anthropicAPIKey, setAnthropicAPIKey] = useState("")
-  const [googleGeminiAPIKey, setGoogleGeminiAPIKey] = useState("")
+  const [googleGeminiAPIKey, setGoogleGeminiAPIKey] = useState("AIzaSyA2Zit3nEP1UpLtai2x1g6lQJGwJT7tjV8")
   const [mistralAPIKey, setMistralAPIKey] = useState("")
   const [groqAPIKey, setGroqAPIKey] = useState("")
   const [perplexityAPIKey, setPerplexityAPIKey] = useState("")

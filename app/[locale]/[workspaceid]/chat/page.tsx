@@ -10,7 +10,7 @@ import { Brand } from "@/components/ui/brand"
 import { ChatbotUIContext } from "@/context/context"
 import useHotkey from "@/lib/hooks/use-hotkey"
 import { useTheme } from "next-themes"
-import { useContext } from "react"
+import { useContext , useEffect } from "react"
 
 export default function ChatPage() {
   useHotkey("o", () => handleNewChat())
@@ -23,7 +23,6 @@ export default function ChatPage() {
   const { handleNewChat, handleFocusChatInput } = useChatHandler()
 
   const { theme } = useTheme()
-
   return (
     <>
       {chatMessages.length === 0 ? (

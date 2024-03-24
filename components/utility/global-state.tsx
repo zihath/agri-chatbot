@@ -196,7 +196,7 @@ export const GlobalState: FC<GlobalStateProps> = ({ children }) => {
       return profile
     }
   }
-
+  
   return (
     <ChatbotUIContext.Provider
       value={{

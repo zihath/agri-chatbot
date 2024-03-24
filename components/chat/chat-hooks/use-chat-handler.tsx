@@ -109,7 +109,7 @@ export const useChatHandler = () => {
         includeWorkspaceInstructions:
           selectedAssistant.include_workspace_instructions,
         embeddingsProvider: selectedAssistant.embeddings_provider as
-          | "openai"
+          | "google"
           | "local"
       })
 
@@ -153,7 +153,7 @@ export const useChatHandler = () => {
         includeWorkspaceInstructions:
           selectedPreset.include_workspace_instructions,
         embeddingsProvider: selectedPreset.embeddings_provider as
-          | "openai"
+          | "google"
           | "local"
       })
     } else if (selectedWorkspace) {

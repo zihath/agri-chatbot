@@ -19,6 +19,7 @@ import {
 import { Slider } from "./slider"
 import { TextareaAutosize } from "./textarea-autosize"
 import { WithTooltip } from "./with-tooltip"
+import { useEffect , useState} from "react"
 
 interface ChatSettingsFormProps {
   chatSettings: ChatSettings
@@ -35,8 +36,8 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
 }) => {
   const { profile, models } = useContext(ChatbotUIContext)
 
-  if (!profile) return null
 
+  if (!profile) return null
   return (
     <div className="space-y-3">
       <div className="space-y-1">
