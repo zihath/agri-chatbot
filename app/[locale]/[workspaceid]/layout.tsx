@@ -156,7 +156,7 @@ export default function WorkspaceLayout({ children }: WorkspaceLayoutProps) {
     setModels(modelData.models)
 
     setChatSettings({
-      model: "select a model",
+      model: ("gemini-pro") as LLMID,
       prompt:
         workspace?.default_prompt ||
         "You are a friendly, helpful AI assistant.",

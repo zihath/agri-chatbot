@@ -23,13 +23,7 @@ export default function ChatPage() {
   const { handleNewChat, handleFocusChatInput } = useChatHandler()
 
   const { theme } = useTheme()
-  const[showAlert , setShowAlert] = useState(true);
-  useEffect(() => {
-    if(showAlert){
-      alert("Before start chatting , Please select the model as gemini-pro in the top left");
-      setShowAlert(false);
-    }
-  });
+  
   return (
     <>
       {chatMessages.length === 0 ? (
