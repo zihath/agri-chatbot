@@ -10,7 +10,7 @@ import { Brand } from "@/components/ui/brand"
 import { ChatbotUIContext } from "@/context/context"
 import useHotkey from "@/lib/hooks/use-hotkey"
 import { useTheme } from "next-themes"
-import { useContext , useEffect } from "react"
+import { useContext , useEffect  , useState} from "react"
 
 export default function ChatPage() {
   useHotkey("o", () => handleNewChat())
@@ -23,6 +23,13 @@ export default function ChatPage() {
   const { handleNewChat, handleFocusChatInput } = useChatHandler()
 
   const { theme } = useTheme()
+  const[showAlert , setShowAlert] = useState(true);
+  useEffect(() => {
+    if(showAlert){
+      alert("Before start chatting , Please select the model as gemini-pro in the top left");
+      setShowAlert(false);
+    }
+  });
   return (
     <>
       {chatMessages.length === 0 ? (

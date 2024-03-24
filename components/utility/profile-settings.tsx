@@ -228,11 +228,10 @@ setProfile(updatedProfile);
   })
 
   setIsOpen(false)
-  window.location.reload();
+  // window.location.reload();
 }
 
-// updateProfileData();
-// handleSave();
+updateProfileData();
 },[openaiAPIKey])
   const handleSave = async () => {
     if (!profile) return
