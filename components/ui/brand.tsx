@@ -9,7 +9,7 @@ interface BrandProps {
 
 export const Brand: FC<BrandProps> = ({ theme = "dark" }) => {
   return (
-    <div>
+    <div className="pl-16">
       <div className="mb-2 pl-14">
         <img src="../sensegrass_logo.jpeg" alt="logo" width="100px" height="100px"/>
       </div>
